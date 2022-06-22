@@ -1,4 +1,17 @@
+<?php
+require("conn.php");
 
+$email = $_SESSION['email'];
+
+if($_SESSION['email'] == ""){
+  header("location:login.php");
+}
+
+$getname = mysqli_query($conn, "select * from clients where email='$email'");
+while($row = mysqli_fetch_assoc($getname)){
+  $name = $row['fullname'];
+}
+?>
 <html>
 <head>
     <!-- CSS only -->
@@ -26,23 +39,26 @@
           <a class="nav-link" href="#">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" href="logout.php">Logout</a>
         </li>
        
     </div>
   </div>
 </nav>
 
-
+<?php
+echo "Welcome ".$name;
+?>
 <div class="row">
     <?php
-    
-    for($count = 1; $count <= 8; $count++){
+    $gethouses = mysqli_query($conn, "select * from houses where status = 'empty'");
+
+    while($house = mysqli_fetch_assoc($gethouses)){
 ?>
 <div class="col-md-3" style="padding:10px;">
-<img src="images/1.jpg" style="width:100%; height: 100px;">   
-<p style="font-weight: bold">Hello World</p> 
-<a href="#" class="btn btn-success">Book House</a>
+<img src="images/<?php echo $house['img'];?>" style="width:100%; height: 180px;">   
+<p style="font-weight: bold"><?php echo $house['hname']; ?></p> 
+<a href="booking.php?id=<?php echo $house['id'];?>" class="btn btn-success">Book House</a>
 <br>
 </div>
 <?php
