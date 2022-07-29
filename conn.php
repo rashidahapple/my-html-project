@@ -1,6 +1,7 @@
 <?php
-
-$host ="localhost:3308";
+session_start();
+error_reporting(0);
+$host ="localhost";
 $user ="root";
 $pass = "";
 
